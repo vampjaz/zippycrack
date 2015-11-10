@@ -40,12 +40,16 @@ All the information is specified during initialization:
 * **numthreads**: number of threads to start. Default 4.
 * **cont**: boolean value to continue looking if a password is found.
 * **mode**: selects the mode of distribution of the passwords to each thread.
-	* `ROUND_ROBIN`: distributes passwords in a round-robin distribution:
+
+
+**Modes**:
+
+`ROUND_ROBIN`: distributes passwords in a round-robin distribution:
 
     1    2    3    4
     5    6    7    8 ...
 
-	* `SEGMENTED`: segments the password file equally among threads:
+`SEGMENTED`: segments the password file equally among threads:
 
     1   100  200  300
     2   101  201  301 ...
