@@ -25,6 +25,32 @@ And it's just that easy:
 
 All the thread handling is done for you, leaving you to spend your precious time on writing the important parts of the code.
 
+### Quick docs:
+
+All the information is specified during initialization:
+
+    zippycrack.zippycrack(func,
+    	passfile,
+    	numthreads=4,
+    	cont=False,
+    	mode=ROUND_ROBIN)
+
+* **func**: the function called to evaluate if the password is correct. This should return `True` if the password is correct, `False` otherwise. The only parameter passed to it is the password to try.
+* **passfile**: the file to read newline-separated passwords from.
+* **numthreads**: number of threads to start. Default 4.
+* **cont**: boolean value to continue looking if a password is found.
+* **mode**: selects the mode of distribution of the passwords to each thread.
+	* `ROUND_ROBIN`: distributes passwords in a round-robin distribution:
+
+    1    2    3    4
+    5    6    7    8 ...
+
+	* `SEGMENTED`: segments the password file equally among threads:
+
+    1   100  200  300
+    2   101  201  301 ...
+
+
 Note: this library is a work in progress.
 
 Another note: I am not responsible for anyone using this library illegally.
