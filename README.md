@@ -49,11 +49,22 @@ All the information is specified during initialization:
     1    2    3    4
     5    6    7    8 ...
 
-`SEGMENTED`: segments the password file equally among threads:
+**currently unimplemented** `SEGMENTED`: segments the password file equally among threads:
 
     1   100  200  300
     2   101  201  301 ...
 
+### Extended docs:
+
+There is also an extended "mode" of operation, which will require more user side code, but is more powerful. Each thread instantiates its own class, which allows there to be persistent objects across all attempts in each thread.
+
+To use simply substitute your custom class for the `func` variable during initialization. It needs to extend the `zippycrack.xdefault` class, with three optional functions overridden:
+
+* `__init__(self,tid)` - called on initialization, `tid` is thread ID
+* `run(self,pwd)` - called once per password, `pwd` is the password. as before, return `True` to indicate success
+* `done(self)` - called on completion, use to clean up stuff
+
+--------------
 
 Note: this library is a work in progress.
 

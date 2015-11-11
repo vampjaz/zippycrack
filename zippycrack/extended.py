@@ -7,9 +7,9 @@ import sys
 ## constants
 ROUND_ROBIN = 1
 SEGMENTED = 2
-EXIT_ = 77777 # idk... this is for exiting the thread; will never be a number
+EXIT_ = 77777 # idk... this is for exiting the thread; should never be a number
 
-class default:
+class xdefault:
 	def __init__(self,tid):
 		pass
 
@@ -20,7 +20,7 @@ class default:
 		pass
 
 ## passcrack class
-class zippycrack:
+class zippycrack_extended:
 	def __init__(self,pclass,passfile,numthreads=4,cont=False,mode=ROUND_ROBIN):
 		# func to run to check, file uri line separated, num threads, boolean to continue if found a correct, mode to distribute passwords
 		self.pclass = pclass
@@ -32,18 +32,20 @@ class zippycrack:
 
 	def worker_thread(self,queue,tid):
 		r = True
+		c = self.pclass(tid)
 		while r:
 			pwd = queue.get()
 			if pwd == EXIT_:
 				r = False
 				break
-			ret = self.func(pwd) ## func must return a boolean if correct
+			ret = c.run(pwd) ## func must return a boolean if correct
 			if ret:
 				self.printqueue.put("Thread {} found a match: {}".format(tid,pwd))
 				if not self.cont:
 					## TODO: exit all threads
 					r = False
 			queue.task_done()
+		c.done()
 		self.printqueue.put("_EXIT_ "+str(tid))
 
 	def run(self):

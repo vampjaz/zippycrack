@@ -1,2 +1,2 @@
 from .core import *
-#from .extended import *
+from .extended import *
