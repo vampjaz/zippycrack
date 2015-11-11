@@ -34,5 +34,5 @@ def try_deflate(password):
 	except:
 		return False
 
-zc = zippycrack.zippycrack(try_deflate,pwlist,numthreads=thr)
-zc.run()
+zc = zippycrack.zippycrack(try_deflate,pwlist,numthreads=thr,cont=True)
+print zc.run()

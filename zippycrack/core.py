@@ -56,6 +56,7 @@ class zippycrack:
 			q.put(EXIT_)
 		## now wait for the print queues to populate:
 		runningt = [True]*self.numthreads
+		passes = []
 		while True in runningt:
 			n = self.printqueue.get()
 			if '_EXIT_' in n:
@@ -64,5 +65,8 @@ class zippycrack:
 				if not self.cont:
 					sys.exit()
 			else:
+				if "match: " in n:
+					passes.append(n.split('match: ',1)[-1])
 				print n
 		print "Done"
+		return passes
