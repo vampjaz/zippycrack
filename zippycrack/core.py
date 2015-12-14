@@ -1,5 +1,4 @@
-import threading
-import Queue
+from multiprocessing import Process, Queue
 import sys
 
 ## constants
@@ -16,7 +15,7 @@ class zippycrack:
 		self.numthreads = numthreads
 		self.cont = cont
 		self.mode = mode
-		self.printqueue = Queue.Queue()
+		self.printqueue = Queue()
 
 	def worker_thread(self,queue,tid):
 		r = True
@@ -31,16 +30,16 @@ class zippycrack:
 				if not self.cont:
 					## TODO: exit all threads
 					r = False
-			queue.task_done()
+			#queue.task_done()  ## apparently not in multiprocessing
 		self.printqueue.put("_EXIT_ "+str(tid))
 
 	def run(self):
 		self.threads = []
 		self.queues = []
 		for i in range(self.numthreads):
-			nq = Queue.Queue()
+			nq = Queue()
 			self.queues.append(nq)
-			th = threading.Thread(target=self.worker_thread,args=(self.queues[i],i))
+			th = Process(target=self.worker_thread,args=(self.queues[i],i))
 			th.start()
 
 		pfile = open(self.passfile,'r')
